@@ -30,7 +30,6 @@ def separate_tokens(expression):
   if is_reading_number:
     token_list.append(int(number_read))
 
-  #print(token_list)
   return token_list
 
 def sya(list):
@@ -53,7 +52,6 @@ def sya(list):
   while len(stack)>0:
     queue.append(stack.pop())
 
-  print(queue)
   return queue
 
 def perform_operations(reverse_polish):
