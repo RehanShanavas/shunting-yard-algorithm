@@ -15,6 +15,7 @@ def separate_tokens(expression):
   is_reading_number = False
   number_read = ""
   for char in expression:
+    # Ignore blank spaces
     if char==' ':
       continue
     else:
@@ -43,7 +44,7 @@ def sya(list):
     # If it's a number, add it to QUEUE
     if type(token) == type(9):
       queue.append(token)
-    # If its an operator
+    # If it's an operator
     elif token in OPERATORS:
       token_rank = OPERATORS.index(token) # Get the precedence of the operator read
       # While there's an operator with higher precedence on the top of the STACK, pop that operator onto the QUEUE
@@ -53,7 +54,7 @@ def sya(list):
     # If it's a left bracket, add it to the STACK
     elif token == '(':
       stack.append(token)
-    # If its a right bracket
+    # If it's a right bracket
     elif token == ')':
       # While there's no left bracket on the top of the STACK, pop operators from the stack onto the QUEUE
       while len(stack)>0 and stack[-1]!='(':
@@ -86,9 +87,12 @@ def perform_operations(reverse_polish):
   ''' Takes a list of tokens in postfix-notation and returns the evaluated expression
   '''
   stack = []
+  # Read a token
   for token in reverse_polish:
+    # If it's a number, add it to STACK
     if type(token) == type(9):
       stack.append(token)
+    # If it's an operator, perform operation on the last two numbers in the STACK and add the result to STACK
     elif token in OPERATORS:
       n2 = stack.pop()
       n1 = stack.pop()
