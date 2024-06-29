@@ -33,22 +33,33 @@ def separate_tokens(expression):
   return token_list
 
 def sya(list):
+  ''' Takes a list of tokens of the infix-notation format and returns a list of tokens
+      in the postfix-notation format
+  '''
   queue = []
   stack = []
+  # Read a token
   for token in list:
+    # If it's a number, add it to QUEUE
     if type(token) == type(9):
       queue.append(token)
+    # If its an operator
     elif token in OPERATORS:
-      token_rank = OPERATORS.index(token)
+      token_rank = OPERATORS.index(token) # Get the precedence of the operator read
+      # While there's an operator with higher precedence on the top of the STACK, pop that operator onto the QUEUE
       while len(stack)>0 and (stack[-1] in OPERATORS) and OPERATORS.index(stack[-1]) > token_rank:
         queue.append(stack.pop())
-      stack.append(token)
+      stack.append(token) # Add operator read to STACK
+    # If it's a left bracket, add it to the STACK
     elif token == '(':
       stack.append(token)
+    # If its a right bracket
     elif token == ')':
+      # While there's no left bracket on the top of the STACK, pop operators from the stack onto the QUEUE
       while len(stack)>0 and stack[-1]!='(':
         queue.append(stack.pop())
-      stack.pop()
+      stack.pop() # Discard the left bracket
+  # While there are operators on the stack, pop them onto the QUEUE
   while len(stack)>0:
     queue.append(stack.pop())
 
