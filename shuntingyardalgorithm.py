@@ -59,20 +59,53 @@ def sya(list):
       while len(stack)>0 and stack[-1]!='(':
         queue.append(stack.pop())
       stack.pop() # Discard the left bracket
+    # Inavlid input, so return empty list
+    else:
+      return []
   # While there are operators on the stack, pop them onto the QUEUE
   while len(stack)>0:
     queue.append(stack.pop())
 
   return queue
 
+def operate(a,b,operator):
+  ''' Performs the operation a operator b and returns the result of the operation
+  '''
+  if operator == "^":
+    return a**b
+  elif operator == "/":
+    return a/b
+  elif operator == "*":
+    return a*b
+  elif operator == "+":
+    return a+b
+  elif operator == "-":
+    return a-b
+
 def perform_operations(reverse_polish):
-  return
+  ''' Takes a list of tokens in postfix-notation and returns the evaluated expression
+  '''
+  stack = []
+  for token in reverse_polish:
+    if type(token) == type(9):
+      stack.append(token)
+    elif token in OPERATORS:
+      n2 = stack.pop()
+      n1 = stack.pop()
+      result = operate(n1,n2,token)
+      stack.append(result)
+  return stack.pop()
 
 def evaluate(expression):
-  token_list = separate_tokens(expression)
-  reverse_polish_stack = sya(token_list)
-  answer = perform_operations(reverse_polish_stack)
-  return answer
+  try:
+    token_list = separate_tokens(expression)
+    reverse_polish_stack = sya(token_list)
+    answer = perform_operations(reverse_polish_stack)
+    return answer
+  except ZeroDivisionError:
+    return "Invalid Expression ( Division by 0 )"
+  except:
+    return "Inavlid Expression"
 
 def main():
   user_input = get_input()
